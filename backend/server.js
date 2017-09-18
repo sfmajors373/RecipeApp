@@ -18,8 +18,7 @@ server.get('/recipes', (req, res) => {
 });
 
 server.get('/recipe/:id', (req, res) => {
-  const { id } = req.params;
-  Recipe.findById({ id })
+  Recipe.findById(req.params.id)
     .exec((err, recipe) => {
     if (err) {
       res.send(err);
@@ -29,15 +28,22 @@ server.get('/recipe/:id', (req, res) => {
   });
 });
 
-server.post('/newrecipe', (req, res) => {
-  const recipe = new Recipe(req.body);
-  recipe.save((err, newRecipe) => {
-    if (err) {
-      res.send(err);
-      return;
-    }
-    res.send(newRecipe);
-  });
-});
+// server.post('/newrecipe', (req, res) => {
+//   const { name, ingredients, steps } = req.body;
+//   if (!name || !ingredients) {
+//     res.status(422);
+//     res.send({ error: "please include name and ingredients" });
+//   } else {
+//     const recipe = new Recipe(req.body);
+//     recipe.save((err, newRecipe) => {
+//       if (err) {
+//         res.send(err);
+//         return;
+//       }
+//       res.send(newRecipe);
+//     });
+//   }
+// });
 
 module.exports = server;
+

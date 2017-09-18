@@ -1,6 +1,5 @@
-
 const mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/test');
+mongoose.connect('mongodb://localhost/test', { useMongoClient: true });
 mongoose.Promise = global.promise;
 const Recipe = require('./model');
 const server = require('./server');
@@ -39,29 +38,28 @@ describe('/recipes', () => {
         });
     });
   });
-  describe('[POST] /newrecipe', () => {
-    it('should post a new recipe', (done) => {
-      const chocolateCake = {
-        name: 'Chocolate Cake',
-        ingredients: ['flour', 'sugar', 'eggs', 'cocoa'],
-        steps: ['Sift flour', 'Beat eggs', 'Bake']
-      }
-      chai.request(server)
-        .post('/newrecipe')
-        .send(chocolateCake)
-        .end((err, res) => {
-          if (err) {
-            console.log(err);
-          } else {
-            expect(res.status).to.equal(200);
-            expect(res.body.name).to.equal('Chocolate Cake');
-            expect(Array.isArray(res.body.ingredients)).to.equal(true);
-            expect(Array.isArray(res.body.steps)).to.equal(true);
-            done();
-          }
-        });
-    });
-  });
+  // describe('[POST] /newrecipe', () => {
+  //   it('should post a new recipe', (done) => {
+  //     const chocolateCake = {
+  //       name: 'Chocolate Cake',
+  //       ingredients: ['flour', 'sugar', 'eggs', 'cocoa'],
+  //       steps: ['Sift flour', 'Beat eggs', 'Bake']
+  //     }
+  //     chai.request(server)
+  //       .post('/newrecipe')
+  //       .send(chocolateCake)
+  //       .end((err, res) => {
+  //         if (err) {
+  //           console.log(err);
+  //         } else {
+  //           expect(res.status).to.equal(200);
+  //           expect(res.body.name).to.equal('Chocolate Cake');
+  //           expect(Array.isArray(res.body.ingredients)).to.equal(true);
+  //           expect(Array.isArray(res.body.steps)).to.equal(true);
+  //           done();
+  //         }
+  //       });
+  //   });
   //   it('should not post a recipe without ingredients', (done) => {
   //     const chocolateCake = {
   //       name: 'Chocolate Cake',
@@ -71,31 +69,32 @@ describe('/recipes', () => {
   //       .post('/newrecipe')
   //       .send(chocolateCake)
   //       .end((err, res) => {
-  //         expect(res.status).to.equal(200);
+  //         expect(res.status).to.equal(422);
   //         expect(typeof res.body).to.equal('object');
-  //         expect(res.body).to.have.property('errors');
+  //         expect(res.body).to.have.property('error');
+  //         console.log(res.body);
   //         done();
   //       });
   //   });
   // });
-  // describe('[GET] /recipes/:id', () => {
-  //   it('should get a recipe by id', (done) => {
-  //     let recipe = new Recipe({
-  //       name: 'Chocolate Cake',
-  //       ingredients: ['flour', 'sugar', 'eggs', 'cocoa'],
-  //       steps: ['Sift flour', 'Beat eggs', 'Bake']
-  //     });
-  //     recipe.save((err, recipe) => {
-  //       chai.request(server)
-  //         .get('/recipe/' + recipe.id)
-  //         .send(recipe)
-  //         .end((err, res) => {
-  //           expect(res.status).to.equal(200);
-  //           expect(typeof res.body).to.equal('object');
-  //           // expect(res.body.id).to.equal(recipe.id);
-  //           done();
-  //         });
-  //     });
-  //   });
-  // });
+  describe('[GET] /recipes/:id', () => {
+    it('should get a recipe by id', (done) => {
+      let recipe = new Recipe({
+        name: 'Chocolate Cake',
+        ingredients: ['flour', 'sugar', 'eggs', 'cocoa'],
+        steps: ['Sift flour', 'Beat eggs', 'Bake']
+      });
+      recipe.save((err, recipe) => {
+        chai.request(server)
+          .get('/recipe/' + recipe.id)
+          .send(recipe)
+          .end((err, res) => {
+            expect(res.status).to.equal(200);
+            expect(typeof res.body).to.equal('object');
+            // expect(res.body).to.have.property("_id").equal(recipe.id);
+            done();
+          });
+      });
+    });
+  });
 });

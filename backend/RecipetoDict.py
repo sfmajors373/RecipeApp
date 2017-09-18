@@ -1,12 +1,12 @@
 #! /bin/python3
-# import pymongo
-# from pymongo import MongoClient
-# client = MongoClient('mongodb://localhost:27017/')
-# db = client.pymongo_test
-# recipes = db.recipes
+import pymongo
+from pymongo import MongoClient
+client = MongoClient('mongodb://localhost:27017/')
+db = client.recipes
+recipes = db.recipes
 
 # open a file to read
-nameOfFile = 'ApplesauceNutBread.tex'
+nameOfFile = 'AppleStrudelMuffins.tex'
 NAME = nameOfFile.strip('.tex')
 
 def findIngredients(nameOfFile):
@@ -45,5 +45,4 @@ STEPS = findSteps(nameOfFile)
 RECIPE = {"name": NAME,
           "ingredients": ingredients,
           "steps": STEPS}
-# recipe_id = recipes.insert_one(recipe).inserted_id
-print(RECIPE)
+recipe_id = recipes.insert_one(RECIPE).inserted_id
