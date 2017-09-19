@@ -1,0 +1,21 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+}
+
+.NavBar {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  padding: 30px;
+  margin: 30px;
+  padding-left: 30px;
+  padding-right: 30px;
+  text-decoration: none;
+}
+
+Link {
+  margin: 10;
+  padding: 10;
+}

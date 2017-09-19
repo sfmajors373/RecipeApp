@@ -3,9 +3,20 @@ const bodyParser = require('body-parser');
 const Recipe = require('./model');
 const mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
+const cors = require('cors');
+
+const corsOptions = {
+  "origin": "http://localhost:3000",
+  "methods": "GET, HEAD, PUT, PATCH, POST, DELETE",
+  "preflightContinue": true,
+  "optionsSuccessStatus": 204,
+  "credentials": true,
+};
+
 
 const server = express();
 server.use(bodyParser.json());
+server.use(cors(corsOptions));
 
 server.get('/recipes', (req, res) => {
   Recipe.find({}, (err, recipe) => {
