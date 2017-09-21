@@ -1,9 +1,9 @@
 #! /bin/python3
-# import pymongo
-# from pymongo import MongoClient
-# client = MongoClient('mongodb://localhost:27017/')
-# db = client.recipes
-# recipes = db.recipes
+import pymongo
+from pymongo import MongoClient
+client = MongoClient('mongodb://localhost:27017/')
+db = client.recipes
+recipes = db.recipes
 
 # open a file to read
 nameOfFile = 'AppleStrudelMuffins.tex'
@@ -139,7 +139,7 @@ def findSource(nameOfFile):
                 break;
             else:
                 line = line.strip()
-                line = line.strip('source ] {')
+                line = line.strip('source = {')
                 source = line.strip('}')
                 break;
     RECIPE_FILE.close()
@@ -159,5 +159,6 @@ RECIPE = {"name": NAME,
           "source": SOURCE,
           "ingredients": ingredients,
           "steps": STEPS}
-# recipe_id = recipes.insert_one(RECIPE).inserted_id
+recipe_id = recipes.insert_one(RECIPE).inserted_id
+print('recipe added')
 print(RECIPE)

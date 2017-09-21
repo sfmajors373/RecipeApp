@@ -97,4 +97,23 @@ describe('/recipes', () => {
       });
     });
   });
+  describe('[GET] /recipes/:ingredient', () => {
+    it('should get an array of recipes with the requested ingredient', (done) => {
+      let recipe = new Recipe({
+        name: 'Chocolate Cake',
+        ingredients: ['flour', 'sugar', 'eggs', 'cocoa'],
+        steps: ['Sift flour', 'Beat eggs', 'Bake']
+      });
+      recipe.save((err, recipe) => {
+        chai.request(server)
+          .get('/recipe/flour')
+          .send(recipe)
+          .end((err, res) => {
+            expect(res.status).to.equal(200);
+            expect(typeof res.body).to.equal('array');
+            expect(res.body.length).to.equal(1);
+          });
+      });
+    });
+  });
 });

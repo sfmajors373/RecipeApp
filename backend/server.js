@@ -39,6 +39,19 @@ server.get('/recipe/:id', (req, res) => {
   });
 });
 
+server.get('/recipes/:ingredient', (req, res) => {
+  const { ingredient }  = req.params;
+  Recipe.find({ ingredients: { $in: [{ ingredient }] }})
+    .exec((error, answer) => {
+       if (!ingredient ) {
+         res.status = 422;
+         res.send('ingredient required');
+         return;
+       }
+      res.json(answer);
+    });
+});
+
 // server.post('/newrecipe', (req, res) => {
 //   const { name, ingredients, steps } = req.body;
 //   if (!name || !ingredients) {

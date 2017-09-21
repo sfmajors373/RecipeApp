@@ -6,6 +6,11 @@ const RecipeSchema = new Schema({
     type: String,
     required: true,
   },
+  prepTime: String,
+  bakeTime: String,
+  bakeTemp: String,
+  portions: String,
+  source: String,
   ingredients: [{ type: String, required: true}],
   steps: [String],
 });
